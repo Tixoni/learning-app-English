@@ -1,0 +1,89 @@
+What types of wired internet connections do you know? Talk about each of them in detail. (Unit 1 the Internet, text A) | DSL (phone line, digital signal), Cable (coaxial cable, slower at peak hours), Fiber‑optic (light pulses, fastest). | DSL (телефонная линия, цифровой сигнал), кабельное (коаксиальный кабель, медленнее в часы пик), оптоволокно (световые импульсы, самое быстрое).
+
+What is the difference between DSL and dial-up connection? | DSL lets you use phone and internet at the same time. Dial‑up does not. DSL is faster. | DSL позволяет одновременно пользоваться телефоном и интернетом. Коммутируемый доступ (dial‑up) — нет. DSL быстрее.
+
+Talk about the three wireless internet access technologies mentioned in the text. (Unit 1 the Internet, text A). | Wi‑Fi (radio waves, local network), Cellular (cell towers, cells), Satellite (satellite dish, high delay, for remote areas). | Wi‑Fi (радиоволны, локальная сеть), сотовая связь (базовые станции, соты), спутниковая связь (спутниковая тарелка, высокая задержка, для удалённых районов).
+
+What are the three types of DSL connections that you know? Talk about each of them. (Unit 1, text A, video task 5) | ADSL (download faster than upload), SDSL (same speed both ways), VDSL (very fast over short distance). | ADSL (скачивание быстрее загрузки), SDSL (одинаковая скорость в обе стороны), VDSL (очень быстро на коротком расстоянии).
+
+What is the difference between packet switching and circuit switching technologies? | Circuit: dedicated channel for whole call (wastes resources). Packet: data split into packets, different paths (efficient, used on the Internet). | С коммутацией каналов: выделенный канал на весь звонок (тратит ресурсы). С пакетной коммутацией: данные разбиваются на пакеты, разные пути (эффективно, используется в Интернете).
+
+What are the two subtypes of packet switching technologies that you know? Talk about each of them. (Unit 1 the Internet, text B) | Datagram: each packet travels alone, different routes. Virtual circuit: virtual connection made first, packets go sequentially. | Дейтаграммный: каждый пакет идёт сам по себе, разными маршрутами. Виртуальный канал: сначала создаётся виртуальное соединение, пакеты идут последовательно.
+
+Talk about the TCP/IP model (the layers, protocols). | 4 layers: Application (HTTP, FTP, SMTP), Transport (TCP, UDP), Internet (IP), Network Interface (Ethernet). | 4 уровня: прикладной (HTTP, FTP, SMTP), транспортный (TCP, UDP), межсетевой (IP), сетевых интерфейсов (Ethernet).
+
+What is the difference between TCP and UDP? | TCP: reliable (confirms delivery). UDP: faster, no checks (good for video calls). | TCP: надёжный (подтверждает доставку). UDP: быстрее, без проверок (хорош для видеозвонков).
+
+What is the difference between the Internet and the WWW? | Internet is the network (hardware + protocols). WWW is a service on the Internet (websites, links, URLs). | Интернет — это сеть (оборудование + протоколы). WWW — это служба в Интернете (веб-сайты, ссылки, URL-адреса).
+
+Talk about the three types of search engines and their distinctive features. (Unit 2, Search Engines, text A) | Crawler‑based (spiders find pages automatically), Human‑powered (people add sites manually), Meta‑search (sends your query to other engines). | Поисковые системы на основе роботов (пауки находят страницы автоматически), на основе человеческого участия (люди вручную добавляют сайты), метапоисковые (отправляют ваш запрос другим системам).
+
+What are the three steps that every crawler‑based search engine takes before displaying search results? Talk about each of these stages. (Unit 2, Search Engines, text A) | Crawling (spider finds pages via links), Indexing (stores pages in database, finds keywords), Ranking (orders results from best to worst). | Обход (паук находит страницы по ссылкам), индексация (сохраняет страницы в базе данных, находит ключевые слова), ранжирование (упорядочивает результаты от лучших к худшим).
+
+What makes meta‑search engines different from other types of search engines? | They have no database of their own. They send your query to many other search engines and combine the results. | У них нет собственной базы данных. Они отправляют ваш запрос многим другим поисковым системам и объединяют результаты.
+
+What is the difference between crawler‑based search engines and human‑powered directories? | Crawler‑based: automatic (spiders). Human‑powered: manual (people write descriptions, search matches only descriptions). | Основанные на роботах: автоматические (пауки). Основанные на человеческом участии: ручные (люди пишут описания, поиск совпадает только с описаниями).
+
+What factors determine higher ranking in search results? What aspects can ranking algorithm take into consideration? (Unit 2 Search Engines, video task 5) | Does the search term appear in the page title? In the body? Are all words close together? How many other pages link to it? | Встречается ли поисковый термин в заголовке страницы? В основном тексте? Находятся ли все слова близко друг к другу? Сколько других страниц ссылаются на неё?
+
+What is the difference between a search engine and a web browser? | Web browser runs on your device (renders pages). Search engine runs on remote servers (finds pages that match your request). | Веб-браузер работает на вашем устройстве (отображает страницы). Поисковая система работает на удалённых серверах (находит страницы, соответствующие вашему запросу).
+
+Talk about any four search engines that can be used as an alternative to Google. (Unit 2 Search Engines, text B) | Bing (rewards, conversion tools), Baidu (big in China, censored), Yandex (big in Russia, user‑friendly), Ecosia (uses ad money to plant trees). | Bing (вознаграждения, инструменты конвертации), Baidu (крупный в Китае, цензурируется), Yandex (крупный в России, удобный для пользователя), Ecosia (использует деньги от рекламы для посадки деревьев).
+
+How can programming languages be classified? Provide examples and talk about the distinctive features of each type you have named. | Low‑level (machine code, assembly – close to hardware, hard to write) and high‑level (C, Java, Python – closer to English, easier, portable). | Низкоуровневые (машинный код, ассемблер — близки к оборудованию, сложны для написания) и высокоуровневые (C, Java, Python — ближе к английскому, проще, переносимы).
+
+What is OOP? What are the three key features of OOP? Talk about each of them in detail. (Unit 3 Programming languages, text D) | OOP uses objects with data+code. Encapsulation (bundle data and methods in one object), Inheritance (child class gets properties from parent), Polymorphism (same instruction works differently for different objects). | ООП использует объекты с данными+кодом. Инкапсуляция (объединяет данные и методы в одном объекте), наследование (дочерний класс получает свойства от родительского), полиморфизм (одна и та же инструкция работает по-разному для разных объектов).
+
+What is the difference between a compiler, an interpreter, and an assembler? | Compiler: translates whole program at once. Interpreter: line by line as it runs. Assembler: turns assembly language into machine code. | Компилятор: переводит всю программу сразу. Интерпретатор: построчно по мере выполнения. Ассемблер: преобразует язык ассемблера в машинный код.
+
+What are the three main tools used in web design? Talk about each of them. (Unit 4 Web design, text A) | HTML (structure, tags), CSS (style, colors, fonts, layout), JavaScript (interactivity, animations, pop‑ups). | HTML (структура, теги), CSS (стиль, цвета, шрифты, макет), JavaScript (интерактивность, анимация, всплывающие окна).
+
+What is the difference between frontend and backend web development? | Frontend: what the user sees (HTML, CSS, JS). Backend: server side (databases, user requests, server logic). | Фронтенд: то, что видит пользователь (HTML, CSS, JS). Бэкенд: серверная сторона (базы данных, запросы пользователей, серверная логика).
+
+What are the advantages and disadvantages of using website builders? | Pros: no coding, drag‑and‑drop, fast, cheap. Cons: limited customization, less control, may have fewer features. | Плюсы: не нужно программировать, перетаскивание мышью, быстро, дёшево. Минусы: ограниченная настройка, меньше контроля, может иметь меньше функций.
+
+What is SEO? What is its main purpose? | SEO = Search Engine Optimization. Purpose: to make your website rank higher in search results and get more visitors for free. | SEO = поисковая оптимизация. Цель: поднять ваш сайт выше в результатах поиска и получить больше посетителей бесплатно.
+
+What is the difference between on-page SEO and off-page SEO? (Unit 2_ Search Engines, video task 8) | On‑page: things on your site (keywords, speed, mobile‑friendly). Off‑page: things outside (backlinks, social media shares). | Внутренняя оптимизация: то, что на вашем сайте (ключевые слова, скорость, адаптация под мобильные). Внешняя оптимизация: то, что снаружи (обратные ссылки, публикации в соцсетях).
+
+What is meant by "organic results"? (Unit 4_ Web Design, task 8) | Search results that appear because they are relevant, not because someone paid for them. | Результаты поиска, которые появляются, потому что они релевантны, а не потому, что кто-то за них заплатил.
+
+What is malware? What types of malware do you know? Talk about each one in detail. (Unit 5_ Malware, text A) | Malware = malicious software. Virus (needs host, replicates), Worm (no host, spreads alone), Trojan (looks useful, opens backdoor), Ransomware (locks data, demands money), Spyware (collects user data), Keylogger (records keystrokes), Adware (shows ads), Miner (uses your computer to mine crypto). | Вредоносное ПО = зловредное программное обеспечение. Вирус (нужен хозяин, размножается), червь (не нужен хозяин, распространяется сам), троян (выглядит полезным, открывает бэкдор), программа-вымогатель (блокирует данные, требует деньги), шпионское ПО (собирает данные пользователя), кейлоггер (записывает нажатия клавиш), рекламное ПО (показывает рекламу), майнер (использует ваш компьютер для добычи криптовалюты).
+
+What are the four routines of a virus? Talk about the function of each of them. (Unit 5_ Malware, text D) | Misdirection (hides the virus), Reproduction (copies itself), Trigger (starts the payload), Payload (does the damage). | Маскировка (прячет вирус), размножение (копирует себя), триггер (запускает полезную нагрузку), полезная нагрузка (наносит вред).
+
+What types of cybercrime do you know? Talk about each of them. (Unit 5_ Malware, text A) | Phishing (fake messages to steal data), DDoS (overloads servers), Hijacking (sends you to wrong site), Defacement (changes website content), Salami shaving (steals tiny money from many accounts), Piggybacking (uses someone's Wi‑Fi without permission), Piracy (illegal copying of software). | Фишинг (поддельные сообщения для кражи данных), DDoS (перегружает серверы), хиджакинг (перенаправляет на неверный сайт), дефейсмент (изменяет содержимое сайта), «салями» (кража мелких денег со многих счетов), «безбилетник» (использование чужого Wi‑Fi без разрешения), пиратство (незаконное копирование программ).
+
+What is the difference between a virus and a worm? | Virus needs a host file and activation. Worm is standalone, spreads automatically without any host. | Вирусу нужен файл-носитель и активация. Червь самостоятелен, распространяется автоматически без всякого носителя.
+
+What is the difference between a virus and a Trojan? | Virus replicates itself. Trojan does not replicate – it just pretends to be useful but does harm. | Вирус размножается сам. Троян не размножается — он только притворяется полезным, но вредит.
+
+What is the difference between DoS and DDoS attack? How is DDoS attack performed? | DoS comes from one source. DDoS comes from many infected devices (a botnet). DDoS is harder to stop. | DoS-атака исходит из одного источника. DDoS-атака исходит от многих заражённых устройств (ботнета). DDoS остановить сложнее.
+
+What is firewall? What can firewall filters be based on? (Unit 6_ Data Security, video task 7) | Firewall filters incoming/outgoing traffic. Filters based on: IP addresses, domain names, port numbers, or specific words. | Брандмауэр фильтрует входящий и исходящий трафик. Фильтрует на основе: IP-адресов, доменных имён, номеров портов или конкретных слов.
+
+What is the difference between signature‑based scanning and heuristic scanning? | Signature‑based: matches known virus fingerprints. Heuristic: looks for suspicious behaviour (finds new viruses). | Сигнатурное сканирование: сопоставляет с известными отпечатками вирусов. Эвристическое сканирование: ищет подозрительное поведение (находит новые вирусы).
+
+What is a signature? (Unit 6_ Data Security, text B) | A virus signature is like a fingerprint – a unique feature that makes it different from normal programs. | Сигнатура вируса — это как отпечаток пальца — уникальная особенность, которая отличает его от нормальных программ.
+
+What are the two main types of encryption? What is the difference between the two? (Unit 6_ Data Security, text C) | Symmetric (same key to lock and unlock). Asymmetric (two keys: public to lock, private to unlock). | Симметричное (один и тот же ключ для шифрования и расшифрования). Асимметричное (два ключа: открытый для шифрования, закрытый для расшифрования).
+
+What two methods of breaking a cipher are there? (Unit 6_ Data Security, text C) | Brute force (try every possible key). Cryptanalysis (find a weakness in the cipher itself). | Полный перебор (перепробовать все возможные ключи). Криптоанализ (найти слабость в самом шифре).
+
+What is a CAPTCHA? Where is this tool implemented? | CAPTCHA is a test to tell humans from bots. Used on login forms, registration, comments, online shopping. | CAPTCHA — это тест для отличия людей от ботов. Используется в формах входа, регистрации, комментариях, интернет-магазинах.
+
+What is the Turing test? Talk about its procedure. | A judge talks to two hidden things (one human, one computer). If the judge cannot tell which is which, the computer passes. | Судья разговаривает с двумя скрытыми сущностями (одна — человек, другая — компьютер). Если судья не может сказать, кто есть кто, компьютер проходит тест.
+
+What is the difference between classification and clustering? (Unit 7_ the Future of IT, text A) | Classification: puts data into known groups. Clustering: finds new groups by itself (unknown categories). | Классификация: распределяет данные по известным группам. Кластеризация: сама находит новые группы (неизвестные категории).
+
+What is backpropagation? | An algorithm that trains neural networks. It checks the error and adjusts weights from output back to input. | Алгоритм для обучения нейронных сетей. Он проверяет ошибку и корректирует веса от выхода к входу.
+
+What is an artificial neural network? What tasks can neural networks accomplish? | It is a system of connected nodes (artificial neurons) that learns patterns. It can do face recognition, driving, translation, fraud detection. | Это система соединённых узлов (искусственных нейронов), которая учится находить закономерности. Она может распознавать лица, управлять автомобилем, переводить, выявлять мошенничество.
+
+In what way is an artificial neural network similar to biological brain? Describe the structure of artificial neural networks. | Similar because neurons excite or inhibit each other (like synapses). Structure: input layer (gets data), hidden layers (process), output layer (answers). | Сходство в том, что нейроны возбуждают или тормозят друг друга (как синапсы). Структура: входной слой (получает данные), скрытые слои (обрабатывают), выходной слой (ответы).
+
+Why are neural networks compared to 'black boxes'? | Because you put data in and get answers out, but you cannot see exactly how the network made its decision. | Потому что вы подаёте данные и получаете ответы, но не можете точно увидеть, как сеть приняла своё решение.
+
+What is IoT? What are the major problems in using the IoT technology? (Unit 7_ the Future of IT, text B) | IoT = Internet of Things (devices share data without human help). Problems: security risks, too many devices to manage, bugs can break everything, no common standards. | IoT = Интернет вещей (устройства обмениваются данными без помощи человека). Проблемы: угрозы безопасности, слишком много устройств для управления, ошибки могут всё сломать, отсутствие общих стандартов.
+
+What is HLAI? What are the risks of using HLAI? | HLAI = Human‑Level AI (AI that thinks like a human). Risks: people lose jobs, workers depend on those who control AI, too much focus on copying humans instead of helping them. | HLAI = искусственный интеллект уровня человека (ИИ, который мыслит как человек). Риски: люди теряют работу, работники зависят от тех, кто контролирует ИИ, слишком большое внимание копированию человека вместо помощи ему.

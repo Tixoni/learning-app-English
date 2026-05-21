@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>LingoTrain</title>
+  <!-- it used to be 'i dunno wat this shi is...'... Well, was it a rebranding?)-->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       THEMES
+    ═══════════════════════════════════════ */
+    :root {
+      --radius: 14px;
+      --radius-lg: 20px;
+    }
+    [data-theme="dark"] {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --surface2: #21262d;
+      --border:   #30363d;
+      --text:     #e6edf3;
+      --text2:    #8b949e;
+      --text3:    #6e7681;
+      --accent:   #58a6ff;
+      --hard:     #f85149;
+      --medium:   #e3b341;
+      --learned:  #3fb950;
+      --shadow:   rgba(0,0,0,0.4);
+      --input-bg: #0d1117;
+    }
+    [data-theme="light"] {
+      --bg:       #f0f4f8;
+      --surface:  #ffffff;
+      --surface2: #e8edf2;
+      --border:   #d0d7de;
+      --text:     #1f2328;
+      --text2:    #57606a;
+      --text3:    #8c959f;
+      --accent:   #0969da;
+      --hard:     #cf222e;
+      --medium:   #9a6700;
+      --learned:  #1a7f37;
+      --shadow:   rgba(0,0,0,0.1);
+      --input-bg: #ffffff;
+    }
+
+    /* ═══════════════════════════════════════
+       BASE
+    ═══════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* ═══════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════ */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 52px;
+      min-height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--text2); font-weight: 700; }
+
+    .header-right { display: flex; align-items: center; gap: 6px; }
+
+    .icon-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.15s;
+      color: var(--text2);
+      flex-shrink: 0;
+    }
+    .icon-btn:active { transform: scale(0.92); }
+    .icon-btn.on { background: rgba(88,166,255,0.15); border-color: var(--accent); color: var(--accent); }
+    [data-theme="light"] .icon-btn.on { background: rgba(9,105,218,0.12); }
+
+    /* Desktop tab pills in header */
+    .header-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 5px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .tab-btn.active { background: var(--surface2); color: var(--text); }
+
+    /* ═══════════════════════════════════════
+       MAIN LAYOUT
+    ═══════════════════════════════════════ */
+    .app-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+       SIDEBAR (desktop)
+    ═══════════════════════════════════════ */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .sb-section {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 9px;
+    }
+    .file-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 9px 14px;
+      border-radius: var(--radius);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    [data-theme="dark"] .file-btn { color: #0d1117; }
+    .file-btn:active { opacity: 0.8; }
+    #fileInput, #fileInputMobile { display: none; }
+    .word-count { margin-top: 7px; font-size: 0.73rem; color: var(--text2); text-align: center; }
+
+    .pill-group { display: flex; flex-direction: column; gap: 5px; }
+    .pill-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 7px 11px;
+      border-radius: var(--radius);
+      font-size: 0.81rem;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: 0.15s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .pill-btn:hover { border-color: var(--accent); color: var(--text); }
+    .pill-btn.active { background: rgba(88,166,255,0.1); border-color: var(--accent); color: var(--accent); }
+    [data-theme="light"] .pill-btn.active { background: rgba(9,105,218,0.08); color: var(--accent); }
+
+    .act-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 7px 11px;
+      border-radius: var(--radius);
+      font-size: 0.81rem;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: 0.15s;
+      width: 100%;
+      margin-bottom: 5px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .act-btn:hover { border-color: var(--text3); color: var(--text); }
+    .act-btn.danger { color: var(--hard); border-color: rgba(248,81,73,0.3); }
+
+    /* ═══════════════════════════════════════
+       CONTENT AREA
+    ═══════════════════════════════════════ */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ═══════════════════════════════════════
+       TRAIN VIEW
+    ═══════════════════════════════════════ */
+    .train-view {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .train-view.hidden { display: none; }
+
+    .quiz-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 4px 20px var(--shadow);
+      position: relative;
+    }
+
+    /* Knowledge bar extra spacing when placed at bottom */
+    .knowledge-bar-bottom {
+      margin-top: 4px;
+    }
+
+    /* Practice banner */
+    .practice-banner {
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.25);
+      border-radius: var(--radius);
+      padding: 9px 13px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .practice-banner button {
+      background: none;
+      border: 1px solid rgba(88,166,255,0.4);
+      border-radius: 8px;
+      padding: 3px 9px;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 0.76rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .question-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(88,166,255,0.1);
+      padding: 4px 11px;
+      border-radius: 40px;
+      border: 1px solid rgba(88,166,255,0.22);
+      white-space: nowrap;
+    }
+    [data-theme="light"] .question-badge { background: rgba(9,105,218,0.08); }
+    .progress-pill { font-size: 0.73rem; color: var(--text3); font-weight: 500; white-space: nowrap; }
+
+    .question-word {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    /* Knowledge bar */
+    .knowledge-bar { display: flex; gap: 7px; }
+    .know-btn {
+      flex: 1;
+      border: 1px solid transparent;
+      padding: 8px 4px;
+      border-radius: var(--radius);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      opacity: 0.4;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .know-btn.selected { opacity: 1; }
+    .know-btn:active { transform: scale(0.95); }
+    .know-btn.hard    { background: rgba(248,81,73,0.12);  color: var(--hard);    border-color: rgba(248,81,73,0.25); }
+    .know-btn.medium  { background: rgba(227,179,65,0.12); color: var(--medium);  border-color: rgba(227,179,65,0.25); }
+    .know-btn.learned { background: rgba(63,185,80,0.12);  color: var(--learned); border-color: rgba(63,185,80,0.25); }
+    .know-btn.selected.hard    { background: rgba(248,81,73,0.22);  border-color: var(--hard); }
+    .know-btn.selected.medium  { background: rgba(227,179,65,0.22); border-color: var(--medium); }
+    .know-btn.selected.learned { background: rgba(63,185,80,0.22);  border-color: var(--learned); }
+
+    /* Options */
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .option-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 13px 11px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.15s;
+      color: var(--text);
+      text-align: left;
+      word-break: break-word;
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .option-btn:active:not(:disabled) { transform: scale(0.97); }
+    .opt-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      background: var(--surface2);
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .option-btn.correct-highlight { background: rgba(63,185,80,0.15); border-color: var(--learned); color: var(--learned); }
+    .option-btn.wrong-highlight { background: rgba(248,81,73,0.15); border-color: var(--hard); color: var(--hard); text-decoration: line-through; }
+
+    /* Input area */
+    .input-area { display: flex; gap: 9px; }
+    #answerInput {
+      flex: 1;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      outline: none;
+      background: var(--input-bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+      -webkit-appearance: none;
+    }
+    #answerInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,0.12); }
+    #answerInput::placeholder { color: var(--text3); }
+    [data-theme="light"] #answerInput:focus { box-shadow: 0 0 0 3px rgba(9,105,218,0.1); }
+
+    .btn-check {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+      -webkit-appearance: none;
+    }
+    [data-theme="dark"] .btn-check { color: #0d1117; }
+    .btn-check:active { opacity: 0.8; }
+    .btn-check:disabled { background: var(--surface2); color: var(--text3); cursor: not-allowed; opacity: 1; }
+
+    /* Feedback */
+    .feedback {
+      padding: 11px 14px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 500;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+    }
+    .feedback.correct { background: rgba(63,185,80,0.12); color: var(--learned); border: 1px solid rgba(63,185,80,0.25); }
+    .feedback.wrong   { background: rgba(248,81,73,0.12); color: var(--hard);    border: 1px solid rgba(248,81,73,0.25); }
+    .feedback.info    { background: rgba(88,166,255,0.1); color: var(--accent);  border: 1px solid rgba(88,166,255,0.2); }
+    .feedback.warn    { background: rgba(227,179,65,0.1); color: var(--medium);  border: 1px solid rgba(227,179,65,0.2); }
+
+    /* Bottom buttons */
+    .card-bottom { display: flex; gap: 9px; }
+    .btn-next {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-next:active:not(:disabled) { transform: scale(0.97); }
+    .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-speak {
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.25);
+      color: var(--accent);
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      display: none;
+      align-items: center;
+      gap: 5px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-speak.show { display: flex; }
+    .btn-speak:active { opacity: 0.7; }
+
+    /* Stats */
+    .stats-row { display: flex; gap: 8px; }
+    .stat-chip {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 8px 6px;
+      border-radius: var(--radius);
+      text-align: center;
+    }
+    .stat-val { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .stat-lbl { font-size: 0.62rem; color: var(--text3); font-weight: 500; letter-spacing: 0.3px; }
+
+    .hotkey-hint { font-size: 0.68rem; color: var(--text3); text-align: center; }
+
+    /* ═══════════════════════════════════════
+       LISTS VIEW
+    ═══════════════════════════════════════ */
+    .lists-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 14px;
+    }
+    .lists-view.active { display: flex; }
+
+    .lists-header { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
+
+    .lists-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    .list-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .list-panel-head { display: flex; align-items: center; justify-content: space-between; }
+    .list-panel-title { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+    .list-panel-title.hard-t    { color: var(--hard); }
+    .list-panel-title.medium-t  { color: var(--medium); }
+    .list-panel-title.learned-t { color: var(--learned); }
+    .list-count { font-size: 0.72rem; background: var(--bg); border: 1px solid var(--border); padding: 2px 8px; border-radius: 40px; color: var(--text2); }
+    .list-words { display: flex; flex-direction: column; gap: 4px; max-height: 260px; overflow-y: auto; }
+    .list-word-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 6px 9px;
+      font-size: 0.79rem;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .lw-term { color: var(--text); font-weight: 600; }
+    .list-empty { font-size: 0.8rem; color: var(--text3); text-align: center; padding: 16px 0; }
+    .btn-practice-list {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 8px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-practice-list:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn-practice-list:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-remove-word {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      font-size: 0.78rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .btn-remove-word:hover { color: var(--hard); }
+
+    /* ═══════════════════════════════════════
+       SETTINGS DRAWER (mobile)
+    ═══════════════════════════════════════ */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .drawer-overlay.open { display: block; }
+    .drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      padding: 0 16px 24px;
+      z-index: 201;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .drawer.open { transform: translateY(0); }
+    .drawer-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 10px auto 16px;
+    }
+    .drawer-section { margin-bottom: 16px; }
+    .drawer-title { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 9px; }
+    .drawer-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .drawer-pill {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 10px 10px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+    }
+    .drawer-pill.active { background: rgba(88,166,255,0.1); border-color: var(--accent); color: var(--accent); }
+    [data-theme="light"] .drawer-pill.active { background: rgba(9,105,218,0.08); color: var(--accent); }
+    .drawer-pill:active { transform: scale(0.96); }
+
+    /* ═══════════════════════════════════════
+       BOTTOM NAV (mobile)
+    ═══════════════════════════════════════ */
+    .bottom-nav {
+      display: none;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      height: 56px;
+      flex-shrink: 0;
+    }
+    .bottom-nav-inner {
+      display: flex;
+      height: 100%;
+      justify-content: space-between;
+      margin: auto;
+      gap: 50px;
+    }
+    .bnav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text3);
+      font-size: 0.6rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+      padding: 6px 0;
+    }
+    .bnav-btn .bnav-icon { font-size: 1.3rem; line-height: 1; }
+    .bnav-btn.active { color: var(--accent); }
+
+    /* ═══════════════════════════════════════
+       SCROLLBAR
+    ═══════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════ */
+    @media (max-width: 680px) {
+      .sidebar { display: none !important; }
+      .header-tabs { display: none !important; }
+      .bottom-nav { display: flex !important;}
+      .options-grid { grid-template-columns: 1fr; }
+      .lists-grid { grid-template-columns: 1fr; }
+      .quiz-card { border-radius: var(--radius); }
+      .train-view { padding: 10px; align-items: flex-start; }
+      .lists-view { padding: 10px; }
+      .hotkey-hint { display: none; }
+      .stats-row { gap: 6px; }
+      .stat-chip { padding: 7px 4px; }
+      .stat-val { font-size: 1rem; }
+      .file-btn { min-height: 44px; }
+    }
+    @media (min-width: 681px) {
+      .drawer-overlay, .drawer, .bottom-nav { display: none !important; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .quiz-card { animation: fadeUp 0.25s ease; }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo">Lingo<span>Train</span></div>
+
+  <div class="header-tabs">
+    <button class="tab-btn active" id="tabTrain" onclick="switchTab('train')">🎯 Тренировка</button>
+    <button class="tab-btn"        id="tabLists" onclick="switchTab('lists')">📋 Списки</button>
+  </div>
+
+  <div class="header-right">
+    <button class="icon-btn" id="ttsToggleBtn" onclick="toggleTTS()" title="Озвучка">🔊</button>
+    <button class="icon-btn" id="themeBtn"     onclick="toggleTheme()" title="Тема">🌙</button>
+  </div>
+</header>
+
+<div class="app-body">
+
+  <nav class="sidebar">
+    <div class="sb-section">
+      <div class="sb-title">Файл</div>
+      <label class="file-btn">
+        📂 Загрузить .txt
+        <input type="file" id="fileInput" accept=".txt">
+      </label>
+      <div class="word-count" id="wordCountDisplay">записей: 0</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Из директории</div>
+      <select id="directoryFileSelect" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 11px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:0.81rem;margin-bottom:7px;outline:none;cursor:pointer;">
+        <option value="">— выберите файл —</option>
+      </select>
+      <button class="file-btn" id="loadDirectoryFileBtn" style="margin-top:0">📥 Загрузить выбранный</button>
+      <div class="word-count" id="directoryFilesStatus" style="margin-top:7px">поиск файлов…</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Тип контента</div>
+      <div class="pill-group">
+        <button class="pill-btn" data-type="translation">📖 Переводы</button>
+        <button class="pill-btn active" data-type="definition">📚 Определения</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Режим ответа</div>
+      <div class="pill-group">
+        <button class="pill-btn" data-mode="input">✍️ Точный ввод</button>
+        <button class="pill-btn active" data-mode="choice">🎲 Выбор варианта</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Направление</div>
+      <div class="pill-group">
+        <button class="pill-btn active" data-dir="forward">→ Термин → Ответ</button>
+        <button class="pill-btn"        data-dir="reverse">← Ответ → Термин</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Оценка знаний</div>
+      <div class="pill-group">
+        <button class="pill-btn" data-pos="top">📌 Сверху</button>
+        <button class="pill-btn" data-pos="bottom">📍 Снизу</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Озвучка</div>
+      <div class="pill-group">
+        <button class="pill-btn" id="ttsQuestionPill">🔊 Озвучивать вопрос</button>
+        <button class="pill-btn" id="ttsAnswerPill">🔊 Озвучивать ответ</button>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-title">Управление</div>
+      <button class="act-btn" id="shuffleBtn">🔀 Перемешать</button>
+      <button class="act-btn danger" id="resetStatsBtn">🗑️ Очистить все данные</button>
+      <button class="act-btn danger" id="exitPracticeBtn" style="display:none">✕ Выйти из практики</button>
+    </div>
+  </nav>
+
+  <div class="content-area">
+
+    <div class="train-view" id="trainView">
+      <div class="quiz-card">
+
+        <div class="practice-banner" id="practiceBanner" style="display:none">
+          <span id="practiceBannerText">Практика</span>
+          <button onclick="exitPracticeMode()">✕ Выйти</button>
+        </div>
+
+        <div class="card-top">
+          <div class="question-badge" id="questionHint">📖 Дайте определение</div>
+          <div class="progress-pill"  id="progressPill">0 / 0</div>
+        </div>
+
+        <div class="question-word" id="questionText">📂 Загрузите .txt файл</div>
+
+        <div class="knowledge-bar" id="knowledgeBar" style="display:none">
+          <button class="know-btn hard"    id="knowHard"    onclick="markWord('hard')">😤 Сложно</button>
+          <button class="know-btn medium"  id="knowMedium"  onclick="markWord('medium')">🙂 Нормально</button>
+          <button class="know-btn learned" id="knowLearned" onclick="markWord('learned')">✅ Выучено</button>
+        </div>
+
+        <div id="choiceModeContainer">
+          <div class="options-grid" id="optionsGrid"></div>
+        </div>
+
+        <div id="inputModeContainer" style="display:none">
+          <div class="input-area">
+            <input type="text" id="answerInput" placeholder="Введите ответ…" autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="none">
+            <button class="btn-check" id="checkAnswerBtn">Проверить</button>
+          </div>
+        </div>
+
+        <div class="feedback" id="feedbackArea"></div>
+
+        <div class="feedback info" id="translationArea" style="display:none"></div>
+
+        <div class="card-bottom">
+          <button class="btn-next"  id="nextBtn"      disabled>➡️ Следующее (Enter)</button>
+          <button class="btn-speak" id="speakTermBtn" onclick="speakCurrentTerm()">🔊</button>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-chip"><div class="stat-val" id="correctCount">0</div><div class="stat-lbl">Правильно</div></div>
+          <div class="stat-chip"><div class="stat-val" id="totalAnswered">0</div><div class="stat-lbl">Отвечено</div></div>
+          <div class="stat-chip"><div class="stat-val" id="accuracyVal">—</div><div class="stat-lbl">Точность</div></div>
+          <div class="stat-chip"><div class="stat-val" id="learnedCount">0</div><div class="stat-lbl">Выучено</div></div>
+        </div>
+
+        <div class="hotkey-hint">⌨️ <b>Enter</b> — проверить/дальше &nbsp;|&nbsp; <b>1–4</b> — выбор &nbsp;|&nbsp; <b>H/N/L</b> — оценка</div>
+      </div>
+    </div>
+
+    <div class="lists-view" id="listsView">
+      <div class="lists-header">📋 Мои списки слов</div>
+      <div class="lists-grid">
+
+        <div class="list-panel">
+          <div class="list-panel-head">
+            <div class="list-panel-title">👁️ Непрочитанные</div>
+            <div class="list-count" id="unreadCount">0</div>
+          </div>
+          <div class="list-words" id="unreadList"></div>
+          <div class="list-empty" id="unreadEmpty">Пока пусто</div>
+          <button class="btn-practice-list" id="practiceUnreadBtn" onclick="startPractice('unread')" disabled>🎯 Тренировать</button>
+        </div>
+
+        <div class="list-panel">
+          <div class="list-panel-head">
+            <div class="list-panel-title hard-t">😤 Сложно</div>
+            <div class="list-count" id="hardCount">0</div>
+          </div>
+          <div class="list-words" id="hardList"></div>
+          <div class="list-empty" id="hardEmpty">Пока пусто</div>
+          <button class="btn-practice-list" id="practiceHardBtn" onclick="startPractice('hard')" disabled>🎯 Тренировать</button>
+        </div>
+
+        <div class="list-panel">
+          <div class="list-panel-head">
+            <div class="list-panel-title medium-t">🙂 Нормально</div>
+            <div class="list-count" id="mediumCount">0</div>
+          </div>
+          <div class="list-words" id="mediumList"></div>
+          <div class="list-empty" id="mediumEmpty">Пока пусто</div>
+          <button class="btn-practice-list" id="practiceMediumBtn" onclick="startPractice('medium')" disabled>🎯 Тренировать</button>
+        </div>
+
+        <div class="list-panel">
+          <div class="list-panel-head">
+            <div class="list-panel-title learned-t">✅ Выучено</div>
+            <div class="list-count" id="learnedCountList">0</div>
+          </div>
+          <div class="list-words" id="learnedList"></div>
+          <div class="list-empty" id="learnedEmpty">Пока пусто</div>
+          <button class="btn-practice-list" id="practiceLearnedBtn" onclick="startPractice('learned')" disabled>🎯 Тренировать</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bnav-btn active" id="bnavTrain" onclick="switchTab('train')">
+      <span class="bnav-icon">🎯</span>Тренировка
+    </button>
+    <button class="bnav-btn" id="bnavLists" onclick="switchTab('lists')">
+      <span class="bnav-icon">📋</span>Списки
+    </button>
+    <button class="bnav-btn" id="bnavSettings" onclick="openDrawer()">
+      <span class="bnav-icon">⚙️</span>Настройки
+    </button>
+  </div>
+</nav>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Файл</div>
+    <label class="file-btn" style="margin-bottom:0">
+      📂 Загрузить .txt
+      <input type="file" id="fileInputMobile" accept=".txt">
+    </label>
+    <div class="word-count" id="wordCountMobile" style="margin-top:7px">записей: 0</div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Из директории</div>
+    <select id="directoryFileSelectMobile" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 11px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:0.82rem;margin-bottom:7px;outline:none;cursor:pointer;">
+      <option value="">— выберите файл —</option>
+    </select>
+    <button class="file-btn" id="loadDirectoryFileBtnMobile" style="margin-top:0">📥 Загрузить выбранный</button>
+    <div class="word-count" id="directoryFilesStatusMobile" style="margin-top:7px">поиск файлов…</div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Тип контента</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill" data-type="translation">📖 Переводы</button>
+      <button class="drawer-pill active" data-type="definition">📚 Определения</button>
+    </div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Режим ответа</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill" data-mode="input">✍️ Ввод</button>
+      <button class="drawer-pill active" data-mode="choice">🎲 Выбор</button>
+    </div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Направление</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill active" data-dir="forward">→ Термин</button>
+      <button class="drawer-pill" data-dir="reverse">← Ответ</button>
+    </div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Оценка знаний</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill" data-pos="top">📌 Сверху</button>
+      <button class="drawer-pill" data-pos="bottom">📍 Снизу</button>
+    </div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Озвучка</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill" id="ttsQuestionPillMobile">🔊 Вопрос</button>
+      <button class="drawer-pill" id="ttsAnswerPillMobile">🔊 Ответ</button>
+    </div>
+  </div>
+
+  <div class="drawer-section">
+    <div class="drawer-title">Управление</div>
+    <div class="drawer-grid-2">
+      <button class="drawer-pill" id="shuffleBtnMobile">🔀 Перемешать</button>
+      <button class="drawer-pill" id="resetStatsBtnMobile" style="color:var(--hard);border-color:rgba(248,81,73,0.3)">🗑️ Очистить</button>
+    </div>
+  </div>
+
+  <div class="drawer-section" id="drawerExitSection" style="display:none">
+    <button class="drawer-pill" style="width:100%;color:var(--hard);border-color:rgba(248,81,73,0.3)" id="exitPracticeBtnMobile">
+      ✕ Выйти из практики
+    </button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let items        = [];
+let allItems     = [];
+let currentIndex = 0;
+let correctAnswers = 0;
+let totalAnswered  = 0;
+let isAnswered     = false;
+let currentMode      = "choice";
+let currentDirection = "forward";
+let currentType      = "definition";
+let currentCorrectAnswer = "";
+let currentOptions       = [];
+let practiceMode = null;
+let ttsEnabled   = true;
+let ttsQuestionEnabled = true;
+let ttsAnswerEnabled   = true;
+let currentTheme = "dark";
+let knowledgeBarPosition = "top"; // "top" or "bottom"
+let availableDirectoryFiles = [];
+
+let knowledgeLists = { unread: [], hard: [], medium: [], learned: [] };
+
+// ═══════════════════════════════════════
+// DOM
+// ═══════════════════════════════════════
+const fileInput        = document.getElementById("fileInput");
+const fileInputMobile  = document.getElementById("fileInputMobile");
+const wordCountDisplay = document.getElementById("wordCountDisplay");
+const wordCountMobile  = document.getElementById("wordCountMobile");
+const questionHint     = document.getElementById("questionHint");
+const questionTextEl   = document.getElementById("questionText");
+const choiceModeContainer = document.getElementById("choiceModeContainer");
+const inputModeContainer  = document.getElementById("inputModeContainer");
+const optionsGrid      = document.getElementById("optionsGrid");
+const answerInput      = document.getElementById("answerInput");
+const checkAnswerBtn   = document.getElementById("checkAnswerBtn");
+const nextBtn          = document.getElementById("nextBtn");
+const speakTermBtn     = document.getElementById("speakTermBtn");
+const feedbackArea     = document.getElementById("feedbackArea");
+const translationArea  = document.getElementById("translationArea");
+const knowledgeBar     = document.getElementById("knowledgeBar");
+const knowHard         = document.getElementById("knowHard");
+const knowMedium       = document.getElementById("knowMedium");
+const knowLearned      = document.getElementById("knowLearned");
+const practiceBanner   = document.getElementById("practiceBanner");
+const practiceBannerText = document.getElementById("practiceBannerText");
+const exitPracticeBtn  = document.getElementById("exitPracticeBtn");
+const exitPracticeBtnMobile = document.getElementById("exitPracticeBtnMobile");
+const ttsToggleBtn     = document.getElementById("ttsToggleBtn");
+
+const typeBtns = document.querySelectorAll("[data-type]");
+const modeBtns = document.querySelectorAll("[data-mode]");
+const dirBtns  = document.querySelectorAll("[data-dir]");
+const posBtns  = document.querySelectorAll("[data-pos]");
+
+// ═══════════════════════════════════════
+// KNOWLEDGE BAR POSITION
+// ═══════════════════════════════════════
+function repositionKnowledgeBar() {
+  const card = document.querySelector(".quiz-card");
+  if (!card) return;
+  const knowledgeBarEl = document.getElementById("knowledgeBar");
+  if (!knowledgeBarEl) return;
+  
+  // Remove from current parent
+  if (knowledgeBarEl.parentNode) knowledgeBarEl.remove();
+  
+  if (knowledgeBarPosition === "top") {
+    // Insert after .question-word
+    const questionWord = document.querySelector(".question-word");
+    if (questionWord && questionWord.parentNode === card) {
+      questionWord.insertAdjacentElement("afterend", knowledgeBarEl);
+    } else {
+      card.insertBefore(knowledgeBarEl, document.getElementById("choiceModeContainer"));
+    }
+  } else {
+    // Insert after .card-bottom
+    const cardBottom = document.querySelector(".card-bottom");
+    if (cardBottom && cardBottom.parentNode === card) {
+      cardBottom.insertAdjacentElement("afterend", knowledgeBarEl);
+    } else {
+      card.appendChild(knowledgeBarEl);
+    }
+  }
+  // Update active visual in settings
+  posBtns.forEach(btn => {
+    if (btn.dataset.pos === knowledgeBarPosition) btn.classList.add("active");
+    else btn.classList.remove("active");
+  });
+}
+
+function setKnowledgeBarPosition(pos) {
+  if (pos !== "top" && pos !== "bottom") return;
+  knowledgeBarPosition = pos;
+  localStorage.setItem("lingotrain_knowledgePos", pos);
+  repositionKnowledgeBar();
+}
+
+// ═══════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════
+function toggleTheme() {
+  currentTheme = currentTheme === "dark" ? "light" : "dark";
+  applyTheme();
+  localStorage.setItem("lingotrain_theme", currentTheme);
+}
+function applyTheme() {
+  document.documentElement.setAttribute("data-theme", currentTheme);
+  document.getElementById("themeBtn").textContent = currentTheme === "dark" ? "☀️" : "🌙";
+}
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  ttsToggleBtn.textContent = ttsEnabled ? "🔊" : "🔇";
+  ttsToggleBtn.classList.toggle("on", !ttsEnabled);
+  localStorage.setItem("lingotrain_tts", ttsEnabled ? "1" : "0");
+}
+
+function detectLang(text) {
+  return /[а-яёА-ЯЁ]/.test(text) ? "ru-RU" : "en-US";
+}
+
+function speakText(text, forceLang) {
+  if (!ttsEnabled || !window.speechSynthesis) return;
+  if (!text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang  = forceLang || detectLang(text);
+  u.rate  = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
+// Speak the question (English only, if enabled)
+function speakCurrentQuestion() {
+  if (!items.length || !ttsEnabled || !ttsQuestionEnabled) return;
+  const { question } = getCurrentQA();
+  // Skip if no Latin letters (i.e., it's purely Russian/another script)
+  if (!/[a-zA-Z]/.test(question)) return;
+  speakText(question, "en-US");
+}
+
+// Speak the English answer (the "definition" or "term" depending on direction).
+// Never speaks the Russian translation.
+function speakCurrentAnswer() {
+  if (!items.length || !ttsEnabled || !ttsAnswerEnabled) return;
+  const { answer } = getCurrentQA();
+  if (!/[a-zA-Z]/.test(answer)) return;
+  speakText(answer, "en-US");
+}
+
+// Manual button next to the card after answer was given.
+// Speaks the English answer (not the Russian translation).
+function speakCurrentTerm() {
+  if (!items.length) return;
+  const { answer } = getCurrentQA();
+  if (!/[a-zA-Z]/.test(answer)) return;
+  // bypasses ttsAnswerEnabled — manual button always speaks if master TTS is on
+  if (!ttsEnabled || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(answer);
+  u.lang  = "en-US";
+  u.rate  = 0.9;
+  window.speechSynthesis.speak(u);
+}
+
+function updateTtsPillsUI() {
+  const qPill = document.getElementById("ttsQuestionPill");
+  const aPill = document.getElementById("ttsAnswerPill");
+  const qPillM = document.getElementById("ttsQuestionPillMobile");
+  const aPillM = document.getElementById("ttsAnswerPillMobile");
+  if (qPill) qPill.classList.toggle("active", ttsQuestionEnabled);
+  if (aPill) aPill.classList.toggle("active", ttsAnswerEnabled);
+  if (qPillM) qPillM.classList.toggle("active", ttsQuestionEnabled);
+  if (aPillM) aPillM.classList.toggle("active", ttsAnswerEnabled);
+}
+
+function toggleTtsQuestion() {
+  ttsQuestionEnabled = !ttsQuestionEnabled;
+  localStorage.setItem("lingotrain_tts_question", ttsQuestionEnabled ? "1" : "0");
+  updateTtsPillsUI();
+}
+
+function toggleTtsAnswer() {
+  ttsAnswerEnabled = !ttsAnswerEnabled;
+  localStorage.setItem("lingotrain_tts_answer", ttsAnswerEnabled ? "1" : "0");
+  updateTtsPillsUI();
+}
+
+// ═══════════════════════════════════════
+// DRAWER (mobile settings)
+// ═══════════════════════════════════════
+function openDrawer() {
+  document.getElementById("drawerOverlay").classList.add("open");
+  document.getElementById("drawer").classList.add("open");
+}
+function closeDrawer() {
+  document.getElementById("drawerOverlay").classList.remove("open");
+  document.getElementById("drawer").classList.remove("open");
+}
+
+// ═══════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════
+function switchTab(tab) {
+  const train = document.getElementById("trainView");
+  const lists = document.getElementById("listsView");
+
+  document.getElementById("tabTrain").classList.toggle("active", tab === "train");
+  document.getElementById("tabLists").classList.toggle("active", tab === "lists");
+  document.getElementById("bnavTrain").classList.toggle("active", tab === "train");
+  document.getElementById("bnavLists").classList.toggle("active", tab === "lists");
+  document.getElementById("bnavSettings").classList.remove("active");
+
+  if (tab === "train") {
+    train.classList.remove("hidden");
+    train.style.display = "";
+    lists.classList.remove("active");
+  } else {
+    train.style.display = "none";
+    lists.classList.add("active");
+    renderLists();
+  }
+  closeDrawer();
+}
+
+// ═══════════════════════════════════════
+// KNOWLEDGE LISTS
+// ═══════════════════════════════════════
+function saveKnowledgeLists() {
+  localStorage.setItem("lingotrain_knowledge", JSON.stringify(knowledgeLists));
+}
+function loadKnowledgeLists() {
+  try {
+    const s = localStorage.getItem("lingotrain_knowledge");
+    if (s) {
+      const parsed = JSON.parse(s);
+      knowledgeLists.hard = parsed.hard || [];
+      knowledgeLists.medium = parsed.medium || [];
+      knowledgeLists.learned = parsed.learned || [];
+      knowledgeLists.unread = parsed.unread || [];
+    }
+  } catch(e) {}
+}
+
+function markWord(level) {
+  if (!items.length || !isAnswered) return;
+  const item = items[currentIndex];
+  ["unread", "hard","medium","learned"].forEach(l => {
+    knowledgeLists[l] = knowledgeLists[l].filter(w => w.term !== item.term);
+  });
+  knowledgeLists[level].push({ term: item.term, definition: item.definition, translation: item.translation || "" });
+  saveKnowledgeLists();
+  [knowHard, knowMedium, knowLearned].forEach(b => b.classList.remove("selected"));
+  if (level !== "unread") {
+    ({ hard: knowHard, medium: knowMedium, learned: knowLearned })[level].classList.add("selected");
+  }
+  updateStatsUI();
+}
+
+function renderLists() {
+  ["unread", "hard","medium","learned"].forEach(level => {
+    const list = knowledgeLists[level];
+    const container = document.getElementById(level + "List");
+    const empty     = document.getElementById(level + "Empty");
+    const countEl   = document.getElementById(level === "learned" ? "learnedCountList" : level + "Count");
+    const practiceBtn = document.getElementById("practice" + cap(level) + "Btn");
+
+    countEl.textContent   = list.length;
+    practiceBtn.disabled  = list.length === 0;
+    empty.style.display   = list.length ? "none" : "block";
+
+    container.innerHTML = list.map((w, i) => `
+      <div class="list-word-item">
+        <span><span class="lw-term">${esc(w.term)}</span> — ${esc(w.definition.length > 45 ? w.definition.slice(0,42)+"…" : w.definition)}</span>
+        <button class="btn-remove-word" onclick="removeWord('${level}',${i})">✕</button>
+      </div>`).join("");
+  });
+}
+
+function removeWord(level, i) {
+  const removedItem = knowledgeLists[level].splice(i, 1)[0];
+  if (level !== "unread") {
+    knowledgeLists.unread.push(removedItem);
+  }
+  saveKnowledgeLists();
+  renderLists();
+  updateStatsUI();
+}
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function esc(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ═══════════════════════════════════════
+// PRACTICE MODE
+// ═══════════════════════════════════════
+function startPractice(level) {
+  const list = knowledgeLists[level];
+  if (!list.length) return;
+  practiceMode = level;
+  if (!allItems.length || allItems === items) allItems = [...items];
+  items = list.map(w => ({ term: w.term, definition: w.definition, translation: w.translation || "" }));
+  resetSession();
+
+  const labels = { unread: "👁️ Непрочитанные", hard: "😤 Сложные слова", medium: "🙂 «Нормально»", learned: "✅ Выученные" };
+  practiceBanner.style.display = "flex";
+  practiceBannerText.textContent = "Практика: " + labels[level];
+  exitPracticeBtn.style.display = "flex";
+  document.getElementById("drawerExitSection").style.display = "block";
+
+  switchTab("train");
+  renderCurrentQuestion();
+}
+
+function exitPracticeMode() {
+  practiceMode = null;
+  if (allItems.length) items = allItems;
+  resetSession();
+  practiceBanner.style.display = "none";
+  exitPracticeBtn.style.display = "none";
+  document.getElementById("drawerExitSection").style.display = "none";
+  renderCurrentQuestion();
+  closeDrawer();
+}
+
+// ═══════════════════════════════════════
+// CORE LOGIC
+// ═══════════════════════════════════════
+function normalizeStr(s) { return s.trim().toLowerCase().replace(/\s+/g," "); }
+
+function resetSession() {
+  currentIndex   = 0;
+  correctAnswers = 0;
+  totalAnswered  = 0;
+  isAnswered     = false;
+  speakTermBtn.classList.remove("show");
+  knowledgeBar.style.display = "none";
+  hideTranslation();
+}
+
+function updateStatsUI() {
+  document.getElementById("correctCount").textContent  = correctAnswers;
+  document.getElementById("totalAnswered").textContent = totalAnswered;
+  document.getElementById("progressPill").textContent  = `${items.length ? currentIndex+1 : 0} / ${items.length}`;
+  document.getElementById("accuracyVal").textContent   = totalAnswered ? Math.round(correctAnswers/totalAnswered*100)+"%" : "—";
+  document.getElementById("learnedCount").textContent  = knowledgeLists.learned.length;
+  const wc = `записей: ${items.length}`;
+  wordCountDisplay.textContent = wc;
+  wordCountMobile.textContent  = wc;
+}
+
+function getCurrentQA() {
+  if (!items.length) return { question:"", answer:"" };
+  const item = items[currentIndex];
+  return currentDirection === "forward"
+    ? { question: item.term,       answer: item.definition }
+    : { question: item.definition, answer: item.term };
+}
+
+function generateOptions(correctAns, excludeIdx) {
+  const pool = allItems.length > items.length ? allItems : items;
+  const candidates = [];
+  pool.forEach((item, i) => {
+    if (pool === items && i === excludeIdx) return;
+    candidates.push(currentDirection === "forward" ? item.definition : item.term);
+  });
+  const uniqueMap = new Map();
+  candidates.forEach(c => { if (!uniqueMap.has(normalizeStr(c))) uniqueMap.set(normalizeStr(c), c); });
+  const unique = [...uniqueMap.values()].filter(u => normalizeStr(u) !== normalizeStr(correctAns));
+  shuffle(unique);
+  const opts = [correctAns, ...unique.slice(0,3)];
+  while (opts.length < 4) opts.push(correctAns);
+  shuffle(opts);
+  return opts;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function renderOptions(options) {
+  optionsGrid.innerHTML = "";
+  options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.innerHTML = `<span class="opt-num">${idx+1}</span>${opt.length > 120 ? opt.slice(0,117)+"…" : opt}`;
+    btn.addEventListener("click", () => { if (!isAnswered) handleAnswer(opt); });
+    optionsGrid.appendChild(btn);
+  });
+}
+
+function handleAnswer(userAnswer) {
+  if (isAnswered || !items.length) return;
+  const normUser    = normalizeStr(userAnswer);
+  const normCorrect = normalizeStr(currentCorrectAnswer);
+  const isCorrect   = normUser === normCorrect;
+
+  if (isCorrect) correctAnswers++;
+  totalAnswered++;
+  isAnswered = true;
+
+  setFeedback(
+    isCorrect ? "✅ Верно! Отлично!" : `❌ Правильный ответ: «${currentCorrectAnswer}»`,
+    isCorrect ? "correct" : "wrong"
+  );
+
+  // Show Russian translation if present (display only, never voiced)
+  showTranslation();
+
+  // Speak the English answer (never the Russian translation)
+  speakCurrentAnswer();
+  speakTermBtn.classList.add("show");
+
+  knowledgeBar.style.display = "flex";
+  [knowHard, knowMedium, knowLearned].forEach(b => b.classList.remove("selected"));
+  if (isCorrect) {
+    knowLearned.classList.add("selected");
+    const item = items[currentIndex];
+    ["unread", "hard","medium","learned"].forEach(l => {
+      knowledgeLists[l] = knowledgeLists[l].filter(w => w.term !== item.term);
+    });
+    knowledgeLists.learned.push({ term: item.term, definition: item.definition, translation: item.translation || "" });
+    saveKnowledgeLists();
+  }
+
+  if (currentMode === "choice") {
+    document.querySelectorAll(".option-btn").forEach(btn => {
+      btn.disabled = true;
+      const txt = btn.textContent.replace(/^[1-4]/, "").trim();
+      if (normalizeStr(txt) === normCorrect) btn.classList.add("correct-highlight");
+      if (!isCorrect && normalizeStr(txt) === normUser && normalizeStr(txt) !== normCorrect)
+        btn.classList.add("wrong-highlight");
+    });
+  } else {
+    answerInput.disabled  = true;
+    checkAnswerBtn.disabled = true;
+  }
+
+  updateStatsUI();
+  nextBtn.disabled = false;
+  nextBtn.focus();
+}
+
+function showTranslation() {
+  if (!translationArea) return;
+  if (!items.length) { translationArea.style.display = "none"; return; }
+  const item = items[currentIndex];
+  if (item && item.translation) {
+    translationArea.textContent = "🇷🇺 " + item.translation;
+    translationArea.style.display = "flex";
+  } else {
+    translationArea.style.display = "none";
+    translationArea.textContent = "";
+  }
+}
+
+function hideTranslation() {
+  if (!translationArea) return;
+  translationArea.style.display = "none";
+  translationArea.textContent = "";
+}
+
+function setFeedback(msg, type) {
+  feedbackArea.textContent = msg;
+  feedbackArea.className = "feedback" + (type ? " " + type : "");
+}
+
+function nextQuestion() {
+  if (!items.length) return;
+  if (!isAnswered) { setFeedback("⚠️ Сначала ответьте!", "warn"); return; }
+  currentIndex = (currentIndex + 1) % items.length;
+  isAnswered   = false;
+  speakTermBtn.classList.remove("show");
+  knowledgeBar.style.display = "none";
+  hideTranslation();
+  renderCurrentQuestion();
+}
+
+function renderCurrentQuestion() {
+  if (!items.length) {
+    questionTextEl.textContent = "📂 Загрузите .txt файл";
+    questionHint.textContent   = "Нет данных";
+    nextBtn.disabled = true;
+    hideTranslation();
+    updateStatsUI();
+    return;
+  }
+
+  const { question, answer } = getCurrentQA();
+  currentCorrectAnswer = answer;
+  questionTextEl.textContent = question;
+
+  if (currentType === "definition") {
+    questionHint.textContent = currentDirection === "forward" ? "📖 Дайте определение термину" : "🔍 Какой термин?";
+  } else {
+    questionHint.textContent = currentDirection === "forward" ? "🌍 Переведите" : "🔤 Как переводится?";
+  }
+
+  if (currentMode === "input") {
+    inputModeContainer.style.display  = "block";
+    choiceModeContainer.style.display = "none";
+    answerInput.value   = "";
+    answerInput.disabled = isAnswered;
+    checkAnswerBtn.disabled = isAnswered;
+    if (!isAnswered) setTimeout(() => answerInput.focus(), 60);
+  } else {
+    inputModeContainer.style.display  = "none";
+    choiceModeContainer.style.display = "block";
+    currentOptions = generateOptions(currentCorrectAnswer, currentIndex);
+    renderOptions(currentOptions);
+  }
+
+  nextBtn.disabled = !isAnswered;
+  if (!isAnswered) {
+    feedbackArea.textContent = "";
+    feedbackArea.className = "feedback";
+    hideTranslation();
+    // auto-speak the question (English) if enabled
+    speakCurrentQuestion();
+  }
+  updateStatsUI();
+
+  // Ensure knowledge bar is in correct position (in case settings changed while hidden)
+  repositionKnowledgeBar();
+}
+
+// ═══════════════════════════════════════
+// FILE PARSING
+// ═══════════════════════════════════════
+function parseFile(content) {
+  const lines = content.split(/\r?\n/);
+  const parsed = [];
+  let longCount = 0;
+  for (let raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+
+    // Preferred new format: question (en) | answer (en) | answer (ru)
+    // Also supports 2 parts via pipe: term | definition
+    if (line.includes("|")) {
+      const parts = line.split("|").map(s => s.trim());
+      // remove trailing empty fields
+      while (parts.length && parts[parts.length - 1] === "") parts.pop();
+
+      if (parts.length >= 3) {
+        const term = parts[0];
+        const definition = parts[1];
+        // anything after the second pipe is treated as the Russian translation
+        // (re-join with " | " in case the translation itself contains pipes — unlikely but safe)
+        const translation = parts.slice(2).join(" | ").trim();
+        if (term && definition) {
+          parsed.push({ term, definition, translation });
+          if (definition.split(/\s+/).length > 8) longCount++;
+          continue;
+        }
+      } else if (parts.length === 2) {
+        const [term, definition] = parts;
+        if (term && definition) {
+          parsed.push({ term, definition, translation: "" });
+          if (definition.split(/\s+/).length > 8) longCount++;
+          continue;
+        }
+      }
+    }
+
+    // Legacy formats: " - ", tab, or "-"
+    let sepIdx = line.indexOf(" - ");
+    let sepLen = 3;
+    if (sepIdx === -1) {
+      sepIdx = line.indexOf("\t"); sepLen = 1;
+    }
+    if (sepIdx === -1) {
+      sepIdx = line.indexOf("-"); sepLen = 1;
+    }
+    if (sepIdx === -1) continue;
+    const left  = line.substring(0, sepIdx).trim();
+    const right = line.substring(sepIdx + sepLen).trim();
+    if (!left || !right) continue;
+    parsed.push({ term: left, definition: right, translation: "" });
+    if (right.split(/\s+/).length > 8) longCount++;
+  }
+  const isDefMode = parsed.length && (longCount > parsed.length * 0.3 || longCount > 5);
+  return { items: parsed, autoType: isDefMode ? "definition" : "translation" };
+}
+
+function applyLoadedData(newItems, autoType, sourceName) {
+  // make sure every item has a translation field (may be empty string)
+  newItems = newItems.map(it => ({
+    term: it.term,
+    definition: it.definition,
+    translation: it.translation || ""
+  }));
+
+  allItems = newItems;
+  items    = newItems;
+  currentType = autoType;
+
+  knowledgeLists.unread = allItems.filter(item =>
+    !knowledgeLists.hard.some(w => w.term === item.term) &&
+    !knowledgeLists.medium.some(w => w.term === item.term) &&
+    !knowledgeLists.learned.some(w => w.term === item.term)
+  );
+  saveKnowledgeLists();
+
+  typeBtns.forEach(b => b.classList.toggle("active", b.dataset.type === currentType));
+  practiceMode = null;
+  practiceBanner.style.display = "none";
+  exitPracticeBtn.style.display = "none";
+  document.getElementById("drawerExitSection").style.display = "none";
+  resetSession();
+  renderCurrentQuestion();
+  saveState();
+  setFeedback(`✅ Загружено ${items.length} записей (${sourceName})`, "info");
+  setTimeout(() => { if (feedbackArea.textContent.includes("Загружено")) feedbackArea.className = "feedback"; }, 3000);
+}
+
+function loadFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const { items: newItems, autoType } = parseFile(e.target.result);
+    if (!newItems.length) { alert("Файл не содержит пар в нужном формате"); return; }
+    applyLoadedData(newItems, autoType, file.name);
+  };
+  reader.readAsText(file, "UTF-8");
+}
+
+// ═══════════════════════════════════════
+// DIRECTORY FILES PICKER
+//
+// On GitHub Pages there is no directory listing API,
+// so we try two strategies:
+//   1. Fetch an optional manifest "files.json" -> array of filenames
+//      (e.g. ["KM3.txt", "dictionary.txt"])
+//   2. Fall back to probing a known list of candidate filenames.
+// Edit DEFAULT_CANDIDATES below to suit your repo.
+// ═══════════════════════════════════════
+const DEFAULT_CANDIDATES = [
+  "KM3.txt",
+  "dictionary.txt",
+  "definitions.txt",
+  "words.txt",
+  "vocabulary.txt"
+];
+
+async function fetchManifest() {
+  try {
+    const resp = await fetch("files.json", { cache: "no-store" });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.files)) return data.files;
+    return null;
+  } catch (e) { return null; }
+}
+
+async function probeCandidates(list) {
+  const found = [];
+  for (const fn of list) {
+    try {
+      const r = await fetch(fn, { cache: "no-store" });
+      if (!r.ok) continue;
+      const text = await r.text();
+      if (text && text.trim().length > 0) found.push(fn);
+    } catch (e) {}
+  }
+  return found;
+}
+
+async function discoverDirectoryFiles() {
+  let files = await fetchManifest();
+  if (!files || !files.length) {
+    files = await probeCandidates(DEFAULT_CANDIDATES);
+  }
+  availableDirectoryFiles = files || [];
+  populateDirectorySelects();
+  return availableDirectoryFiles;
+}
+
+function populateDirectorySelects() {
+  const selects = [
+    document.getElementById("directoryFileSelect"),
+    document.getElementById("directoryFileSelectMobile")
+  ];
+  selects.forEach(sel => {
+    if (!sel) return;
+    sel.innerHTML = "";
+    const def = document.createElement("option");
+    def.value = "";
+    def.textContent = availableDirectoryFiles.length
+      ? "— выберите файл —"
+      : "— файлы не найдены —";
+    sel.appendChild(def);
+    availableDirectoryFiles.forEach(fn => {
+      const opt = document.createElement("option");
+      opt.value = fn;
+      opt.textContent = fn;
+      sel.appendChild(opt);
+    });
+  });
+
+  const status1 = document.getElementById("directoryFilesStatus");
+  const status2 = document.getElementById("directoryFilesStatusMobile");
+  const msg = availableDirectoryFiles.length
+    ? `доступно файлов: ${availableDirectoryFiles.length}`
+    : "файлы не найдены (создайте files.json)";
+  if (status1) status1.textContent = msg;
+  if (status2) status2.textContent = msg;
+}
+
+async function loadFromDirectoryByName(filename) {
+  if (!filename) {
+    alert("Сначала выберите файл из списка");
+    return;
+  }
+  try {
+    const resp = await fetch(filename, { cache: "no-store" });
+    if (!resp.ok) {
+      alert("Не удалось загрузить файл: " + filename);
+      return;
+    }
+    const text = await resp.text();
+    const { items: newItems, autoType } = parseFile(text);
+    if (!newItems.length) {
+      alert("Файл не содержит данных в нужном формате");
+      return;
+    }
+    applyLoadedData(newItems, autoType, filename);
+  } catch (e) {
+    alert("Ошибка загрузки: " + (e && e.message ? e.message : e));
+  }
+}
+
+// ═══════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════
+function saveState() {
+  localStorage.setItem("lingotrain_items", JSON.stringify(allItems));
+  localStorage.setItem("lingotrain_type",  currentType);
+  localStorage.setItem("lingotrain_mode",  currentMode);
+  localStorage.setItem("lingotrain_dir",   currentDirection);
+}
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem("lingotrain_items");
+    if (!saved) return;
+    allItems = JSON.parse(saved);
+    items    = allItems;
+
+    knowledgeLists.unread = allItems.filter(item =>
+      !knowledgeLists.hard.some(w => w.term === item.term) &&
+      !knowledgeLists.medium.some(w => w.term === item.term) &&
+      !knowledgeLists.learned.some(w => w.term === item.term)
+    );
+    saveKnowledgeLists();
+
+    currentType      = localStorage.getItem("lingotrain_type") || "translation";
+    currentMode      = localStorage.getItem("lingotrain_mode") || "choice";
+    currentDirection = localStorage.getItem("lingotrain_dir")  || "forward";
+    typeBtns.forEach(b => b.classList.toggle("active", b.dataset.type === currentType));
+    modeBtns.forEach(b => b.classList.toggle("active", b.dataset.mode === currentMode));
+    dirBtns.forEach( b => b.classList.toggle("active", b.dataset.dir  === currentDirection));
+    resetSession();
+    renderCurrentQuestion();
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════
+function clearAllData() {
+  if (!confirm("Очистить все данные?\n\nЭто удалит:\n• статистику текущей сессии\n• все списки слов (Сложно / Нормально / Выучено / Непрочитанные)")) return;
+
+  // Clear knowledge lists
+  knowledgeLists.hard    = [];
+  knowledgeLists.medium  = [];
+  knowledgeLists.learned = [];
+  knowledgeLists.unread  = allItems.length ? allItems.map(it => ({
+    term: it.term,
+    definition: it.definition,
+    translation: it.translation || ""
+  })) : [];
+  saveKnowledgeLists();
+
+  // Exit practice mode if active (so we go back to the full deck)
+  if (practiceMode) {
+    practiceMode = null;
+    if (allItems.length) items = allItems;
+    practiceBanner.style.display = "none";
+    exitPracticeBtn.style.display = "none";
+    const exitSec = document.getElementById("drawerExitSection");
+    if (exitSec) exitSec.style.display = "none";
+  }
+
+  // Reset session stats
+  resetSession();
+  renderCurrentQuestion();
+  renderLists();
+  updateStatsUI();
+
+  setFeedback("🗑️ Все данные очищены", "info");
+  setTimeout(() => { feedbackArea.className = "feedback"; }, 1800);
+}
+
+// kept for backwards compatibility / keyboard handlers
+function resetStats() { clearAllData(); }
+
+function shuffleItems() {
+  if (items.length < 2) return;
+  shuffle(items);
+  if (!practiceMode) allItems = [...items];
+  resetSession();
+  renderCurrentQuestion();
+  setFeedback("🃏 Слова перемешаны!", "info");
+  setTimeout(() => { feedbackArea.className = "feedback"; }, 1200);
+  if (!practiceMode) saveState();
+}
+
+function setType(type) {
+  currentType = type;
+  typeBtns.forEach(b => b.classList.toggle("active", b.dataset.type === type));
+  if (items.length) renderCurrentQuestion();
+  saveState();
+}
+function setMode(mode) {
+  currentMode = mode;
+  modeBtns.forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
+  if (items.length) renderCurrentQuestion();
+  saveState();
+}
+function setDirection(dir) {
+  currentDirection = dir;
+  dirBtns.forEach(b => b.classList.toggle("active", b.dataset.dir === dir));
+  if (items.length) renderCurrentQuestion();
+  saveState();
+}
+
+// ═══════════════════════════════════════
+// KEYBOARD
+// ═══════════════════════════════════════
+document.addEventListener("keydown", e => {
+  if (!items.length) return;
+  if (isAnswered && !e.ctrlKey && !e.metaKey && e.target.tagName !== "INPUT") {
+    if (e.key==="h"||e.key==="H") { markWord("hard");    return; }
+    if (e.key==="n"||e.key==="N") { markWord("medium");  return; }
+    if (e.key==="l"||e.key==="L") { markWord("learned"); return; }
+  }
+  if (currentMode === "choice" && !isAnswered && e.key >= "1" && e.key <= "4") {
+    const idx = parseInt(e.key) - 1;
+    const btns = document.querySelectorAll(".option-btn");
+    if (btns[idx]) { e.preventDefault(); btns[idx].click(); }
+  }
+  if (e.key === "Enter") {
+    e.preventDefault();
+    if (!isAnswered) {
+      if (currentMode === "input") {
+        const ans = answerInput.value.trim();
+        ans ? handleAnswer(ans) : setFeedback("✏️ Введите ответ!", "warn");
+      }
+    } else {
+      nextQuestion();
+    }
+  }
+});
+
+// ═══════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════
+fileInput.addEventListener("change",       e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+fileInputMobile.addEventListener("change", e => { if (e.target.files[0]) { loadFile(e.target.files[0]); closeDrawer(); } });
+
+nextBtn.addEventListener("click", nextQuestion);
+
+checkAnswerBtn.addEventListener("click", () => {
+  if (isAnswered || !items.length) return;
+  const ans = answerInput.value.trim();
+  ans ? handleAnswer(ans) : setFeedback("Введите ответ", "warn");
+});
+
+document.getElementById("shuffleBtn").addEventListener("click",      () => items.length ? shuffleItems() : alert("Сначала загрузите файл"));
+document.getElementById("shuffleBtnMobile").addEventListener("click",() => { items.length ? shuffleItems() : alert("Сначала загрузите файл"); closeDrawer(); });
+document.getElementById("resetStatsBtn").addEventListener("click",      clearAllData);
+document.getElementById("resetStatsBtnMobile").addEventListener("click",() => { clearAllData(); closeDrawer(); });
+exitPracticeBtn.addEventListener("click",       exitPracticeMode);
+exitPracticeBtnMobile.addEventListener("click", exitPracticeMode);
+
+// TTS pill toggles
+const ttsQPillEl  = document.getElementById("ttsQuestionPill");
+const ttsAPillEl  = document.getElementById("ttsAnswerPill");
+const ttsQPillElM = document.getElementById("ttsQuestionPillMobile");
+const ttsAPillElM = document.getElementById("ttsAnswerPillMobile");
+if (ttsQPillEl)  ttsQPillEl.addEventListener("click", toggleTtsQuestion);
+if (ttsAPillEl)  ttsAPillEl.addEventListener("click", toggleTtsAnswer);
+if (ttsQPillElM) ttsQPillElM.addEventListener("click", toggleTtsQuestion);
+if (ttsAPillElM) ttsAPillElM.addEventListener("click", toggleTtsAnswer);
+
+// Directory file loaders
+const loadDirBtn  = document.getElementById("loadDirectoryFileBtn");
+const loadDirBtnM = document.getElementById("loadDirectoryFileBtnMobile");
+if (loadDirBtn) loadDirBtn.addEventListener("click", () => {
+  const sel = document.getElementById("directoryFileSelect");
+  loadFromDirectoryByName(sel ? sel.value : "");
+});
+if (loadDirBtnM) loadDirBtnM.addEventListener("click", () => {
+  const sel = document.getElementById("directoryFileSelectMobile");
+  loadFromDirectoryByName(sel ? sel.value : "");
+  closeDrawer();
+});
+
+typeBtns.forEach(b => b.addEventListener("click", () => { setType(b.dataset.type); }));
+modeBtns.forEach(b => b.addEventListener("click", () => { setMode(b.dataset.mode); }));
+dirBtns.forEach( b => b.addEventListener("click", () => { setDirection(b.dataset.dir); }));
+posBtns.forEach( b => b.addEventListener("click", () => { setKnowledgeBarPosition(b.dataset.pos); }));
+
+// Drag-and-drop
+document.body.addEventListener("dragover", e => e.preventDefault());
+document.body.addEventListener("drop",     e => {
+  e.preventDefault();
+  const f = e.dataTransfer.files[0];
+  if (f && f.name.endsWith(".txt")) loadFile(f);
+});
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+(async function init() {
+  // Theme
+  const savedTheme = localStorage.getItem("lingotrain_theme") || "dark";
+  currentTheme = savedTheme;
+  applyTheme();
+
+  // Master TTS
+  const savedTTS = localStorage.getItem("lingotrain_tts");
+  if (savedTTS === "0") { ttsEnabled = false; ttsToggleBtn.textContent = "🔇"; ttsToggleBtn.classList.add("on"); }
+
+  // Per-channel TTS (default: both ON)
+  const savedTTSQ = localStorage.getItem("lingotrain_tts_question");
+  const savedTTSA = localStorage.getItem("lingotrain_tts_answer");
+  ttsQuestionEnabled = savedTTSQ === null ? true : (savedTTSQ === "1");
+  ttsAnswerEnabled   = savedTTSA === null ? true : (savedTTSA === "1");
+  updateTtsPillsUI();
+
+  // Knowledge position
+  const savedPos = localStorage.getItem("lingotrain_knowledgePos");
+  if (savedPos === "top" || savedPos === "bottom") knowledgeBarPosition = savedPos;
+  else knowledgeBarPosition = "top";
+  repositionKnowledgeBar();
+
+  // Knowledge lists
+  loadKnowledgeLists();
+
+  // Discover available files in the directory (manifest + probing)
+  discoverDirectoryFiles();
+
+  // Restore previously loaded items from localStorage (no auto-load from disk)
+  loadFromStorage();
+
+  if (!items.length) {
+    questionTextEl.textContent = "📂 Загрузите .txt файл или выберите из директории";
+    nextBtn.disabled = true;
+    updateStatsUI();
+  }
+})();
+</script>
+</body>
+</html>
