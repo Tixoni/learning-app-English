@@ -427,6 +427,132 @@
     .btn-check:active { opacity: 0.8; }
     .btn-check:disabled { background: var(--surface2); color: var(--text3); cursor: not-allowed; opacity: 1; }
 
+    /* Puzzle mode */
+    #puzzleModeContainer { display: none; }
+    .puzzle-question-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      min-height: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+    .puzzle-placeholder {
+      font-size: 0.82rem;
+      color: var(--text3);
+      font-style: italic;
+    }
+    .puzzle-divider {
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 2px 0;
+    }
+    .puzzle-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      min-height: 44px;
+      align-items: flex-start;
+    }
+    .puzzle-tile {
+      background: var(--bg);
+      border: 1.5px solid var(--accent);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 13px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s, background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .puzzle-tile:active { transform: scale(0.93); }
+    .puzzle-tile.used {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .puzzle-tile.selected-tile {
+      background: rgba(88,166,255,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    [data-theme="light"] .puzzle-tile.selected-tile {
+      background: rgba(9,105,218,0.1);
+    }
+    .puzzle-tile.correct-tile {
+      background: rgba(63,185,80,0.15);
+      border-color: var(--learned);
+      color: var(--learned);
+      pointer-events: none;
+    }
+    .puzzle-tile.wrong-tile {
+      background: rgba(248,81,73,0.15);
+      border-color: var(--hard);
+      color: var(--hard);
+    }
+    .puzzle-answer-tile {
+      background: rgba(88,166,255,0.12);
+      border: 1.5px solid rgba(88,166,255,0.4);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 13px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .puzzle-answer-tile:active:not(.locked) { transform: scale(0.93); }
+    .puzzle-answer-tile.locked { cursor: default; }
+    .puzzle-answer-tile.correct-locked {
+      background: rgba(63,185,80,0.15);
+      border-color: var(--learned);
+      color: var(--learned);
+    }
+    .puzzle-answer-tile.wrong-locked {
+      background: rgba(248,81,73,0.15);
+      border-color: var(--hard);
+      color: var(--hard);
+    }
+    .btn-puzzle-check {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .btn-puzzle-check { color: #0d1117; }
+    .btn-puzzle-check:active { opacity: 0.8; }
+    .btn-puzzle-check:disabled { background: var(--surface2); color: var(--text3); cursor: not-allowed; }
+    .puzzle-actions { display: flex; gap: 9px; align-items: center; margin-top: 4px; }
+    .btn-puzzle-clear {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 10px 13px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: 0.15s;
+    }
+    .btn-puzzle-clear:active { opacity: 0.7; }
+
     /* Feedback */
     .feedback {
       padding: 11px 14px;
@@ -744,6 +870,7 @@
       <div class="pill-group">
         <button class="pill-btn" data-mode="input">✍️ Точный ввод</button>
         <button class="pill-btn active" data-mode="choice">🎲 Выбор варианта</button>
+        <button class="pill-btn" data-mode="puzzle">🧩 Пазл</button>
       </div>
     </div>
 
@@ -813,6 +940,18 @@
           </div>
         </div>
 
+        <div id="puzzleModeContainer" style="display:none">
+          <div class="puzzle-question-box" id="puzzleAnswerBox">
+            <span class="puzzle-placeholder" id="puzzlePlaceholder">Нажмите на слова ниже…</span>
+          </div>
+          <hr class="puzzle-divider">
+          <div class="puzzle-bank" id="puzzleBank"></div>
+          <div class="puzzle-actions">
+            <button class="btn-puzzle-clear" id="puzzleClearBtn" onclick="puzzleClear()">↩ Очистить</button>
+            <button class="btn-puzzle-check" id="puzzleCheckBtn" onclick="puzzleCheck()">Проверить</button>
+          </div>
+        </div>
+
         <div class="feedback" id="feedbackArea"></div>
 
         <div class="feedback info" id="translationArea" style="display:none"></div>
@@ -829,7 +968,7 @@
           <div class="stat-chip"><div class="stat-val" id="learnedCount">0</div><div class="stat-lbl">Выучено</div></div>
         </div>
 
-        <div class="hotkey-hint">⌨️ <b>Enter</b> — проверить/дальше &nbsp;|&nbsp; <b>1–4</b> — выбор &nbsp;|&nbsp; <b>H/N/L</b> — оценка</div>
+        <div class="hotkey-hint">⌨️ <b>Enter</b> — проверить/дальше &nbsp;|&nbsp; <b>1–4</b> — выбор &nbsp;|&nbsp; <b>H/N/L</b> — оценка &nbsp;|&nbsp; 🧩 пазл: кликайте слова</div>
       </div>
     </div>
 
@@ -932,6 +1071,7 @@
     <div class="drawer-grid-2">
       <button class="drawer-pill" data-mode="input">✍️ Ввод</button>
       <button class="drawer-pill active" data-mode="choice">🎲 Выбор</button>
+      <button class="drawer-pill" data-mode="puzzle" style="grid-column:1/-1">🧩 Пазл</button>
     </div>
   </div>
 
@@ -996,6 +1136,11 @@ let ttsAnswerEnabled   = true;
 let currentTheme = "dark";
 let knowledgeBarPosition = "top"; // "top" or "bottom"
 let availableDirectoryFiles = [];
+
+// Puzzle state
+let puzzleWords      = [];   // [{word, idx}] — ordered answer tiles placed by user
+let puzzleBankWords  = [];   // [{word, id, used}] — shuffled bank tiles
+let puzzleLocked     = false; // true after check
 
 let knowledgeLists = { unread: [], hard: [], medium: [], learned: [] };
 
@@ -1314,6 +1459,9 @@ function resetSession() {
   correctAnswers = 0;
   totalAnswered  = 0;
   isAnswered     = false;
+  puzzleWords    = [];
+  puzzleBankWords = [];
+  puzzleLocked   = false;
   speakTermBtn.classList.remove("show");
   knowledgeBar.style.display = "none";
   hideTranslation();
@@ -1415,6 +1563,8 @@ function handleAnswer(userAnswer) {
       if (!isCorrect && normalizeStr(txt) === normUser && normalizeStr(txt) !== normCorrect)
         btn.classList.add("wrong-highlight");
     });
+  } else if (currentMode === "puzzle") {
+    // puzzle tiles are already locked by puzzleCheck() before calling handleAnswer
   } else {
     answerInput.disabled  = true;
     checkAnswerBtn.disabled = true;
@@ -1454,6 +1604,9 @@ function nextQuestion() {
   if (!isAnswered) { setFeedback("⚠️ Сначала ответьте!", "warn"); return; }
   currentIndex = (currentIndex + 1) % items.length;
   isAnswered   = false;
+  puzzleWords  = [];
+  puzzleBankWords = [];
+  puzzleLocked = false;
   speakTermBtn.classList.remove("show");
   knowledgeBar.style.display = "none";
   hideTranslation();
@@ -1483,13 +1636,20 @@ function renderCurrentQuestion() {
   if (currentMode === "input") {
     inputModeContainer.style.display  = "block";
     choiceModeContainer.style.display = "none";
+    document.getElementById("puzzleModeContainer").style.display = "none";
     answerInput.value   = "";
     answerInput.disabled = isAnswered;
     checkAnswerBtn.disabled = isAnswered;
     if (!isAnswered) setTimeout(() => answerInput.focus(), 60);
+  } else if (currentMode === "puzzle") {
+    inputModeContainer.style.display  = "none";
+    choiceModeContainer.style.display = "none";
+    document.getElementById("puzzleModeContainer").style.display = "block";
+    if (!isAnswered) renderPuzzle(currentCorrectAnswer);
   } else {
     inputModeContainer.style.display  = "none";
     choiceModeContainer.style.display = "block";
+    document.getElementById("puzzleModeContainer").style.display = "none";
     currentOptions = generateOptions(currentCorrectAnswer, currentIndex);
     renderOptions(currentOptions);
   }
@@ -1506,6 +1666,167 @@ function renderCurrentQuestion() {
 
   // Ensure knowledge bar is in correct position (in case settings changed while hidden)
   repositionKnowledgeBar();
+}
+
+// ═══════════════════════════════════════
+// PUZZLE MODE
+// ═══════════════════════════════════════
+function puzzleTokenize(answer) {
+  // Split answer into tokens: words + punctuation attached to words preserved as tokens.
+  // We split on spaces but keep punctuation with the word.
+  return answer.trim().split(/\s+/).filter(Boolean);
+}
+
+function renderPuzzle(answer) {
+  const answerBox  = document.getElementById("puzzleAnswerBox");
+  const bankEl     = document.getElementById("puzzleBank");
+  const placeholder = document.getElementById("puzzlePlaceholder");
+  const checkBtn   = document.getElementById("puzzleCheckBtn");
+  const clearBtn   = document.getElementById("puzzleClearBtn");
+
+  const tokens = puzzleTokenize(answer);
+
+  // Build bank: tokens + decoy words from other items (up to fill ~8-10 tiles total)
+  const decoyTarget = Math.max(0, 8 - tokens.length);
+  const decoys = [];
+  const pool = (allItems.length > 1 ? allItems : items);
+  const usedWords = new Set(tokens.map(w => w.toLowerCase()));
+  for (let item of pool) {
+    if (decoys.length >= decoyTarget) break;
+    const src = currentDirection === "forward" ? item.definition : item.term;
+    const toks = puzzleTokenize(src);
+    for (let t of toks) {
+      if (!usedWords.has(t.toLowerCase())) {
+        decoys.push(t);
+        usedWords.add(t.toLowerCase());
+        if (decoys.length >= decoyTarget) break;
+      }
+    }
+  }
+
+  const bankTokens = [...tokens.map((w,i) => ({word:w, id:"ans_"+i, isAnswer:true})),
+                       ...decoys.map((w,i) => ({word:w, id:"dec_"+i, isAnswer:false}))];
+  shuffle(bankTokens);
+  puzzleBankWords = bankTokens.map(t => ({...t, used:false}));
+  puzzleWords     = [];
+  puzzleLocked    = false;
+
+  // Render answer box (empty)
+  placeholder.style.display = "inline";
+  answerBox.querySelectorAll(".puzzle-answer-tile").forEach(el => el.remove());
+
+  // Render bank
+  bankEl.innerHTML = "";
+  puzzleBankWords.forEach(t => {
+    const tile = document.createElement("button");
+    tile.className = "puzzle-tile";
+    tile.textContent = t.word;
+    tile.dataset.tileId = t.id;
+    tile.addEventListener("click", () => puzzleBankClick(t.id));
+    bankEl.appendChild(tile);
+  });
+
+  checkBtn.disabled = true;
+  clearBtn.disabled = false;
+}
+
+function puzzleBankClick(tileId) {
+  if (puzzleLocked) return;
+  const t = puzzleBankWords.find(x => x.id === tileId);
+  if (!t || t.used) return;
+
+  // Mark used in bank
+  t.used = true;
+  const bankTile = document.querySelector(`.puzzle-tile[data-tile-id="${tileId}"]`);
+  if (bankTile) bankTile.classList.add("used");
+
+  // Add to answer box
+  const answerBox  = document.getElementById("puzzleAnswerBox");
+  const placeholder = document.getElementById("puzzlePlaceholder");
+  placeholder.style.display = "none";
+
+  const ansTile = document.createElement("button");
+  ansTile.className = "puzzle-answer-tile";
+  ansTile.textContent = t.word;
+  ansTile.dataset.tileId = tileId;
+  ansTile.addEventListener("click", () => puzzleAnswerTileClick(tileId));
+  answerBox.appendChild(ansTile);
+
+  puzzleWords.push({word: t.word, tileId});
+  document.getElementById("puzzleCheckBtn").disabled = false;
+}
+
+function puzzleAnswerTileClick(tileId) {
+  if (puzzleLocked) return;
+  // Return tile to bank
+  const t = puzzleBankWords.find(x => x.id === tileId);
+  if (!t) return;
+  t.used = false;
+
+  const bankTile = document.querySelector(`.puzzle-tile[data-tile-id="${tileId}"]`);
+  if (bankTile) bankTile.classList.remove("used");
+
+  const ansTile = document.querySelector(`.puzzle-answer-tile[data-tile-id="${tileId}"]`);
+  if (ansTile) ansTile.remove();
+
+  puzzleWords = puzzleWords.filter(x => x.tileId !== tileId);
+
+  const answerBox  = document.getElementById("puzzleAnswerBox");
+  const placeholder = document.getElementById("puzzlePlaceholder");
+  if (!answerBox.querySelector(".puzzle-answer-tile")) {
+    placeholder.style.display = "inline";
+    document.getElementById("puzzleCheckBtn").disabled = true;
+  }
+}
+
+function puzzleClear() {
+  if (puzzleLocked) return;
+  // Return all answer tiles to bank
+  const answerBox   = document.getElementById("puzzleAnswerBox");
+  const placeholder = document.getElementById("puzzlePlaceholder");
+
+  answerBox.querySelectorAll(".puzzle-answer-tile").forEach(el => el.remove());
+  puzzleWords = [];
+  puzzleBankWords.forEach(t => {
+    t.used = false;
+    const bt = document.querySelector(`.puzzle-tile[data-tile-id="${t.id}"]`);
+    if (bt) bt.classList.remove("used");
+  });
+  placeholder.style.display = "inline";
+  document.getElementById("puzzleCheckBtn").disabled = true;
+}
+
+function puzzleCheck() {
+  if (puzzleLocked || isAnswered) return;
+  const userAnswer = puzzleWords.map(x => x.word).join(" ");
+  puzzleLocked = true;
+
+  // Disable bank tiles
+  document.querySelectorAll(".puzzle-tile").forEach(t => t.style.pointerEvents = "none");
+
+  // Lock answer tiles and color them
+  const normUser    = normalizeStr(userAnswer);
+  const normCorrect = normalizeStr(currentCorrectAnswer);
+  const isCorrect   = normUser === normCorrect;
+
+  const answerBox = document.getElementById("puzzleAnswerBox");
+  answerBox.querySelectorAll(".puzzle-answer-tile").forEach(el => {
+    el.classList.add("locked");
+    el.classList.add(isCorrect ? "correct-locked" : "wrong-locked");
+  });
+
+  document.getElementById("puzzleCheckBtn").disabled = true;
+  document.getElementById("puzzleClearBtn").disabled = true;
+
+  // If wrong — show the correct answer in feedback (same as other modes)
+  handleAnswer(userAnswer);
+}
+
+function renderPuzzleMode() {
+  document.getElementById("puzzleModeContainer").style.display = "block";
+  document.getElementById("inputModeContainer").style.display  = "none";
+  document.getElementById("choiceModeContainer").style.display = "none";
+  renderPuzzle(currentCorrectAnswer);
 }
 
 // ═══════════════════════════════════════
@@ -1840,6 +2161,9 @@ document.addEventListener("keydown", e => {
       if (currentMode === "input") {
         const ans = answerInput.value.trim();
         ans ? handleAnswer(ans) : setFeedback("✏️ Введите ответ!", "warn");
+      } else if (currentMode === "puzzle") {
+        if (puzzleWords.length > 0 && !puzzleLocked) puzzleCheck();
+        else if (!puzzleWords.length) setFeedback("🧩 Соберите фразу!", "warn");
       }
     } else {
       nextQuestion();
