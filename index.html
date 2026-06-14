@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     /* ═══════════════════════════════════════
-       THEMES — Claude brand palette
+       THEMES — Claude brand palette (оранжевый/терракотовый стиль)
     ═══════════════════════════════════════ */
     :root {
       --radius: 12px;
@@ -16,17 +16,17 @@
     }
 
     [data-theme="dark"] {
-      --bg:          #1a1a2e;
-      --surface:     #16213e;
-      --surface2:    #0f3460;
-      --surface3:    #1e2a4a;
-      --border:      #2d3a5a;
-      --text:        #e8eaf6;
-      --text2:       #9fa8c7;
-      --text3:       #6272a4;
-      --accent:      #c084fc;   /* Claude violet */
-      --accent2:     #a855f7;
-      --accent-glow: rgba(192,132,252,0.18);
+      --bg:          #1a1a1a;
+      --surface:     #242424;
+      --surface2:    #2d2d2d;
+      --surface3:    #353535;
+      --border:      #3d3d3d;
+      --text:        #f0f0f0;
+      --text2:       #b0b0b0;
+      --text3:       #808080;
+      --accent:      #d97757;   /* Claude терракотовый/оранжевый */
+      --accent2:     #c86542;
+      --accent-glow: rgba(217,119,87,0.18);
       --correct:     #4ade80;
       --correct-bg:  rgba(74,222,128,0.10);
       --wrong:       #f87171;
@@ -35,30 +35,30 @@
       --learned:     #4ade80;
       --not-learned: #f87171;
       --shadow:      rgba(0,0,0,0.45);
-      --input-bg:    #0d1b35;
+      --input-bg:    #1a1a1a;
     }
 
     [data-theme="light"] {
-      --bg:          #f5f0ff;
+      --bg:          #fef7e8;
       --surface:     #ffffff;
-      --surface2:    #ede9fe;
-      --surface3:    #f3f0ff;
-      --border:      #d8d3f0;
-      --text:        #1e1b4b;
-      --text2:       #4c4b8a;
-      --text3:       #7c75b8;
-      --accent:      #7c3aed;
-      --accent2:     #6d28d9;
-      --accent-glow: rgba(124,58,237,0.12);
+      --surface2:    #fff0e0;
+      --surface3:    #ffe8d4;
+      --border:      #e0d0c0;
+      --text:        #2b2520;
+      --text2:       #6b5a4a;
+      --text3:       #a09080;
+      --accent:      #d97757;
+      --accent2:     #c86542;
+      --accent-glow: rgba(217,119,87,0.12);
       --correct:     #16a34a;
-      --correct-bg:  rgba(22,163,74,0.08);
+      --correct-bg:  rgba(22,163,71,0.08);
       --wrong:       #dc2626;
       --wrong-bg:    rgba(220,38,38,0.08);
       --unseen:      #64748b;
       --learned:     #16a34a;
       --not-learned: #dc2626;
       --shadow:      rgba(0,0,0,0.10);
-      --input-bg:    #f8f5ff;
+      --input-bg:    #fef7e8;
     }
 
     /* ═══════════════════════════════════════
@@ -225,7 +225,7 @@
       font-family: 'Inter', sans-serif;
     }
 
-    [data-theme="dark"] .file-btn { color: #1a1a2e; }
+    [data-theme="dark"] .file-btn { color: #1a1a1a; }
     .file-btn:active { opacity: 0.85; transform: scale(0.98); }
     #fileInput { display: none; }
 
@@ -684,7 +684,7 @@
       white-space: nowrap;
     }
 
-    [data-theme="dark"] .check-btn { color: #1a1a2e; }
+    [data-theme="dark"] .check-btn { color: #1a1a1a; }
     .check-btn:disabled { opacity: 0.4; cursor: default; }
     .check-btn:active:not(:disabled) { transform: scale(0.97); }
 
@@ -779,7 +779,7 @@
       letter-spacing: 0.2px;
     }
 
-    [data-theme="dark"] .next-btn { color: #1a1a2e; }
+    [data-theme="dark"] .next-btn { color: #1a1a1a; }
     .next-btn.visible { display: block; }
     .next-btn:hover { opacity: 0.9; }
     .next-btn:active { transform: scale(0.98); }
@@ -900,21 +900,26 @@
     }
 
     /* ═══════════════════════════════════════
-       MOBILE NAV BAR
+       MOBILE NAV BAR — исправлено (кнопки не слипаются)
     ═══════════════════════════════════════ */
     .bottom-nav {
       display: none;
       background: var(--surface);
       border-top: 1px solid var(--border);
-      height: 58px;
-      min-height: 58px;
+      height: 64px;
+      min-height: 64px;
       flex-shrink: 0;
       z-index: 50;
+      padding-bottom: env(safe-area-inset-bottom, 0);
     }
 
     .bottom-nav-inner {
       display: flex;
+      justify-content: space-around;
+      align-items: center;
       height: 100%;
+      width: 100%;
+      padding: 0 8px;
     }
 
     .bnav-btn {
@@ -923,7 +928,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 4px;
       background: none;
       border: none;
       cursor: pointer;
@@ -932,10 +937,14 @@
       font-weight: 600;
       color: var(--text3);
       transition: 0.15s;
+      padding: 8px 4px;
+      border-radius: 12px;
+      max-width: 80px;
     }
 
-    .bnav-btn.active { color: var(--accent); }
-    .bnav-icon { font-size: 1.2rem; }
+    .bnav-btn:active { background: var(--surface3); }
+    .bnav-btn.active { color: var(--accent); background: var(--accent-glow); }
+    .bnav-icon { font-size: 1.3rem; margin-bottom: 2px; }
 
     /* ═══════════════════════════════════════
        MOBILE TOPIC DRAWER
@@ -1160,7 +1169,7 @@
       transition: 0.15s;
     }
 
-    [data-theme="dark"] .finish-restart-btn { color: #1a1a2e; }
+    [data-theme="dark"] .finish-restart-btn { color: #1a1a1a; }
     .finish-restart-btn:hover { opacity: 0.88; }
   </style>
 </head>
@@ -1363,20 +1372,24 @@ What does HTTP stand for? | HyperText Transfer Protocol | HyperText Transport Pr
     </main>
   </div>
 
-  <!-- BOTTOM NAV (mobile) -->
+  <!-- BOTTOM NAV (mobile) — исправлено, кнопки не слипаются -->
   <nav class="bottom-nav">
     <div class="bottom-nav-inner">
       <button class="bnav-btn active" id="bnavList"  onclick="switchTab('list')">
-        <span class="bnav-icon">📋</span>Список
+        <span class="bnav-icon">📋</span>
+        <span>Список</span>
       </button>
       <button class="bnav-btn"        id="bnavTrain" onclick="switchTab('train')">
-        <span class="bnav-icon">🎯</span>Обучение
+        <span class="bnav-icon">🎯</span>
+        <span>Обучение</span>
       </button>
       <button class="bnav-btn"        id="bnavTopics" onclick="openTopicsDrawer()">
-        <span class="bnav-icon">📚</span>Темы
+        <span class="bnav-icon">📚</span>
+        <span>Темы</span>
       </button>
       <button class="bnav-btn"        id="bnavStats"  onclick="switchTab('stats')">
-        <span class="bnav-icon">📊</span>Статистика
+        <span class="bnav-icon">📊</span>
+        <span>Статистика</span>
       </button>
     </div>
   </nav>
